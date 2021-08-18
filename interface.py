@@ -1,4 +1,8 @@
 import enum
+from typing import Tuple
+
+import numpy as np
+
 
 class Error(enum.IntEnum):
     NO_CONTROL = -1
@@ -61,7 +65,11 @@ class State:
             f'cart_velocity={self.cart_velocity}, ' + \
             f'pole_angle={self.pole_angle}, ' + \
             f'pole_velocity={self.pole_velocity}, ' + \
-            f'error={self.error})' 
+            f'error={self.error})'
+
+    def as_np_vector(self):
+        return np.array([self.cart_position, self.cart_velocity,
+                         self.pole_angle, self.pole_velocity])
 
 
 class ActionType(enum.IntEnum):
@@ -106,7 +114,7 @@ class CartPoleConfig:
 
 
 class CartPoleBase:
-    def reset(self, config: CartPoleConfig) -> (State, float):
+    def reset(self, config: CartPoleConfig) -> Tuple[State, float]:
         '''
         Resets the device to the initial state.
         The pole is at rest position and cart is centered.

@@ -1,3 +1,5 @@
+from typing import Tuple
+
 import numpy as np
 import pybullet as pb
 
@@ -14,6 +16,9 @@ debug_state_position = [0.30, 0.05, 0.3]
 debug_state_color = [255, 0 , 0] 
 debug_state_orientation = pb.getQuaternionFromEuler([np.pi/2, 0, np.pi])
 debug_state_size = 0.06
+
+DEFAULT_DELAY = 1/50
+
 
 def short_view(state, target):
     return 'p={p:+.2f}/{t:+.2f} v={v:+.2f} a={a:+.2f} w={w:+.2f}'.format(
@@ -109,7 +114,7 @@ class CartPoleSimulator(CartPoleBase):
             angularDamping=0
         )
 
-        self.client.setTimeStep(1/50)
+        self.client.setTimeStep(DEFAULT_DELAY)
         self.target = 0
 
         # configure cart contraints
@@ -118,7 +123,7 @@ class CartPoleSimulator(CartPoleBase):
             jointIndex=self.slider_to_cart_index,
             controlMode=pb.POSITION_CONTROL,
             targetPosition=self.target,
-            force=100.0, # N
+            force=0, # N
             positionGain=1.0,
             velocityGain=0.0,
         )
@@ -178,7 +183,7 @@ class CartPoleSimulator(CartPoleBase):
         assert self.config
         return self.config
 
-    def reset(self, config: CartPoleConfig = CartPoleConfig()) -> tuple[State, float]:
+    def reset(self, config: CartPoleConfig = CartPoleConfig()) -> Tuple[State, float]:
         '''
         Description:
             Resets the environment to an initial state.
