@@ -35,9 +35,9 @@ class Config:
     @staticmethod
     def default():
         return Config(
-            max_position=0.19,
+            max_position=10.0,
             max_velocity=10.0,
-            max_acceleration=10.0,
+            max_acceleration=1e3,
             clamp_position=False,
             clamp_velocity=False,
             clamp_acceleration=False,

@@ -34,9 +34,9 @@ def clamp(value: float, limit: float) -> Tuple[float, bool]:
 WORLD_CENTER = [0, 0, 0]
 NO_ROTATION = [0, 0, 0, 1]
 
-DEBUG_STATE_POSITION = [0.40, 0.05, 0.30]
+DEBUG_STATE_POSITION = [-0.40, 0.05, 0.40]
 DEBUG_STATE_COLOR = [255, 0, 0]
-DEBUG_STATE_ORIENTATION = pb.getQuaternionFromEuler([math.pi/2, 0, math.pi])
+DEBUG_STATE_ORIENTATION = pb.getQuaternionFromEuler([math.pi/2, 0, 0])
 DEBUG_STATE_SIZE = 0.06
 
 class CartPoleSimulator(CartPoleBase):
@@ -109,9 +109,9 @@ class CartPoleSimulator(CartPoleBase):
             self.client.configureDebugVisualizer(pb.COV_ENABLE_RGB_BUFFER_PREVIEW, False)
             self.client.resetDebugVisualizerCamera(
                 cameraDistance=0.5,
-                cameraYaw=180,
+                cameraYaw=0,
                 cameraPitch=0,
-                cameraTargetPosition=[0, 0.5, 0],
+                cameraTargetPosition=[0, -0.5, 0],
             )
 
             self.debug_state_id = self.client.addUserDebugText(
@@ -246,13 +246,11 @@ class CartPoleSimulator(CartPoleBase):
         self.velocity = 0
         self.delta_velocity = 0
         self.step_count = 0
-
-        eps = 0.05
-
         self.client.resetJointState(
             bodyUniqueId=self.object_id,
             jointIndex=self.cart_to_pole_index,
-            targetValue=math.pi + eps,
+            targetValue=math.pi + 0.1,
+            # targetValue=0.5,
             targetVelocity=0,
         )
 
@@ -341,7 +339,7 @@ class CartPoleSimulator(CartPoleBase):
         Makes step_n sequential simulation steps.
         '''
         if self.error:
-            log.warning('make step, error=%.2f', self.error)
+            log.warning('make step, error=%s', self.error)
             return
 
         for _ in range(step_n):
