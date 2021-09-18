@@ -4,34 +4,42 @@ from simulator import CartPoleSimulator, PhysicalParams
 
 import time
 import math
-
-control = LinearBalanceControl()
-
-env = CartPoleSimulator(debug_mode=True)
-env.reset_physical_params(PhysicalParams())
-env.reset(Config.default())
+import winsound
 
 
-def wait(eps):
-    while True:
-        state = env.get_state()
-        if (state.pole_angle - math.pi) < eps:
-            return
+def main(device, max_iters=500, timedelta=0.1):
+    control = LinearBalanceControl()
 
-        time.sleep(0.1)
+    def wait(eps):
+        while True:
+            state = device.get_state()
+            if abs(state.pole_angle - math.pi) < eps:
+                return
+            time.sleep(timedelta)
+
+    def run(eps):
+        for _ in range(max_iters):
+            state = device.get_state()
+            if abs(state.pole_angle - math.pi) > eps:
+                # device.reset()
+                return
+
+            target = control(state)
+            device.set_target(target)
+            # device.make_step()
+            time.sleep(timedelta)
+
+    wait(0.2)
+    print("ACTIVATING")
+    for i in range(3):
+        time.sleep(1)
+        winsound.Beep(2000, 100)
+    run(0.3)
 
 
-def run(eps):
-    while True:
-        state = env.get_state()
-        if (state.pole_angle - math.pi) > eps:
-            env.reset()
-            return
+if __name__ == '__main__':
+    device = CartPoleSimulator(debug_mode=True)
+    device.reset_physical_params(PhysicalParams())
+    device.reset(Config.default())
 
-        target = control(state)
-        env.set_target(target)
-        env.make_step()
-
-eps = 0.2
-wait(eps)
-run(eps)
+    main(device)
