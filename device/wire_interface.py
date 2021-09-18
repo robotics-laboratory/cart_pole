@@ -176,7 +176,8 @@ class WireInterface:
             self.serial.write((command + '\n').encode('utf-8'))
 
             while True:
-                received = self.serial.readline().decode('utf-8').strip()
+                # TODO: Очень нестабильно работает, надо починить
+                received = self.serial.readline().decode('utf-8', errors='ignore').strip()
                 if received == '':
                     LOGGER.error(f'Serial read timeout during "{command}" request')
                     continue

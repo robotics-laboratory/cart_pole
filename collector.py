@@ -69,28 +69,31 @@ class CollectorProxy(CartPoleBase):
         self._start_timestamp = None
         self._is_running_signal.set()
 
-        while not self._stop_signal.is_set():
-            timestamp = self._get_timestamp()
-            state = self.cart_pole.get_state()
+        self._stop_signal.wait()  # FIXME
 
-            for field in dc.fields(state):
-                if field.name == 'error_code': continue  # FIXME
-                key = f'state.{field.name}'
-
-                lock = self._locks[key]
-                lock.acquire()
-
-                session_values = self.session[key]
-                session_values['x'].append(timestamp)
-                session_values['y'].append(getattr(state, field.name))
-
-                self._consumer_flags[key].set()
-                lock.release()
-
-            time.sleep(self.interval)
+        # while not self._stop_signal.is_set():
+        #     timestamp = self._get_timestamp()
+        #     state = self.cart_pole.get_state()
+        #     self._push_state(timestamp, state)
+        #     time.sleep(self.interval)
 
         self._save_session()
         self._is_running_signal.clear()
+
+    def _push_state(self, timestamp, state):
+        for field in dc.fields(state):
+            if field.name == 'error_code': continue  # FIXME
+            key = f'state.{field.name}'
+
+            lock = self._locks[key]
+            lock.acquire()
+
+            session_values = self.session[key]
+            session_values['x'].append(timestamp)
+            session_values['y'].append(getattr(state, field.name))
+
+            self._consumer_flags[key].set()
+            lock.release()
 
     def start(self) -> None:
         if self._is_running_signal.is_set():
@@ -135,8 +138,11 @@ class CollectorProxy(CartPoleBase):
     def reset(self, config: Config) -> None:
         return self.cart_pole.reset(config)
 
-    def get_state(self) -> State:
-        return self.cart_pole.get_state()
+    def get_state(self) -> State:  # FIXME
+        state = self.cart_pole.get_state()
+        timestamp = self._get_timestamp()
+        self._push_state(timestamp, state)
+        return state
 
     def get_info(self) -> dict:
         return self.cart_pole.get_info()
