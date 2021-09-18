@@ -11,7 +11,7 @@
 
 namespace {
 const int ENCODER_MAX_VALUE = 4096;  // 12 bit
-const unsigned long REFRESH_INTERVAL_MILLIS = 100;
+const unsigned long REFRESH_INTERVAL_MILLIS = 10;
 const bool REVERSE = true;
 const float ROTATION_CARRY_THRESHOLD = 1.8 * PI;
 const int SECONDARY_ENCODER_SDA = 13;
