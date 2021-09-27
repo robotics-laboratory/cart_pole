@@ -3,7 +3,7 @@ import logging
 import serial
 from typing import Union, Type
 
-from cart_pole.interface import Error, Config, State
+from common.interface import Error, Config, State
 
 
 LOGGER = logging.getLogger(__name__)

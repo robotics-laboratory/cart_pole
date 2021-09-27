@@ -1,0 +1,25 @@
+[tool.black]
+target-version = ["py38", "py39"]
+skip-string-normalization = true
+
+[tool.isort]
+profile = "black"
+
+[tool.flake8]
+max-line-length = 88
+# https://github.com/PyCQA/flake8-docstrings
+docstring-convention = "google"
+# https://github.com/zheller/flake8-quotes
+avoid-escape = "false"
+inline-quotes = "'"
+multiline-quotes = "'''"
+docstring-quotes = "'''"
+# E203 - Allow extra spaces in slice operators, as black recommends:
+# https://black.readthedocs.io/en/stable/guides/using_black_with_other_tools.html#flake8
+# D100 ... D107 - Don't require missing docstrings
+# D300 - Don't require """triple double quotes"""
+# http://www.pydocstyle.org/en/latest/error_codes.html
+extend-ignore = "E203,D100,D101,D102,D103,D104,D105,D106,D107,D300"
+# __init__.py: F401 - Allow unused imports in package roots:
+# https://stackoverflow.com/a/58029222/6152172
+per-file-ignores = "__init__.py: F401"

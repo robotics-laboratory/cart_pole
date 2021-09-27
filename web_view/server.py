@@ -5,7 +5,7 @@ import weakref
 
 from aiohttp import web
 
-from cart_pole.web_view.collector import Collector
+from web_view.collector import Collector
 
 
 LOGGER = logging.getLogger(__name__)

@@ -1,6 +1,6 @@
 import unittest
 
-from interface import Config, Error, State
+from common.interface import Config, Error, State
 from simulator import CartPoleSimulator, PhysicalParams
 
 

@@ -8,7 +8,7 @@ import threading
 import time
 from typing import Type, Union, List
 
-from cart_pole.device.wire_interface import WireInterface, DeviceState, DeviceTarget
+from device.wire_interface import WireInterface, DeviceState, DeviceTarget
 
 
 LOGGER = logging.getLogger(__name__)

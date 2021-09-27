@@ -1,12 +1,12 @@
 import logging
 
-from cart_pole import util
-from cart_pole.interface import (
+from common import util
+from common.interface import (
     Config,
     State,
     CartPoleBase,
 )
-from cart_pole.device.wire_interface import (
+from device.wire_interface import (
     WireInterface,
     DeviceTarget,
     DeviceConfig,

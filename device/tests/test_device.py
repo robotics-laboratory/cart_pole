@@ -1,7 +1,7 @@
 import mock
 
-from cart_pole.interface import State, Config
-from cart_pole.device import CartPoleDevice
+from common.interface import State, Config
+from device.device import CartPoleDevice
 
 
 EPS = 1e-6

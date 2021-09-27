@@ -1,6 +1,6 @@
 import math
 
-from interface import State
+from common.interface import State
 
 STEP_COUNT = 'step_count'
 

@@ -10,13 +10,13 @@ as if right after homing procedure.
 import logging
 import time
 
-from cart_pole.device.wire_interface import (
+from device.wire_interface import (
     WireInterface, 
     DeviceTarget, 
     DeviceState,
     DeviceConfig,
 )
-from cart_pole.interface import Error
+from common.interface import Error
 
 
 LOGGER = logging.getLogger(__name__)
