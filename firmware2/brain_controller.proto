@@ -1,0 +1,50 @@
+syntax = "proto3";
+//This .proto file is intended for use both by the microcontroller and the brain
+enum currentStatus{
+    OK = 0;
+    ERROR = 1;
+}
+
+//Only the brain sends requests
+message resetRequest {
+float MAX_CART_X = 1;
+float MAX_CART_V = 2;
+float MATX_CART_A = 3;
+float HW_MAX_X = 4;
+float HW_MAX_V = 5;
+float HW_MAX_A = 6;
+float MAX_THRESHOLD_X = 7;
+float MAX_THRESHOLD_V = 8;
+float MAX_THRESHOLD_A = 9;
+}
+message getStateSetTargetRequest{
+float  TARGET_X = 1;
+float TARGET_V = 2;
+float TARGET_A = 3;
+}
+//Only the controller responds
+
+message resetResponse {
+float MAX_CART_X = 1;
+float MAX_CART_V = 2;
+float MAX_CART_A = 3;
+float HW_MAX_X = 4;
+float HW_MAX_V = 5;
+float HW_MAX_A = 6;
+float MAX_THRESHOLD_X = 7;
+float MAX_THRESHOLD_V = 8;
+float MAX_THRESHOLD_A = 9;
+//TODO:debug led?
+}
+
+message getStateSetTargetResponse {
+float CURR_CART_X = 1; // current cart position float 
+float CURR_CART_V = 2; // current cart velocity float 
+float CURR_CART_A = 3; // current cart acceleration
+float CURR_POLE_ANGLE = 4; // current pole angle
+float CURR_POLE_V = 5; // current pole angular velocity
+float CURR_IMU_A = 6; // current IMU measured cart acceleration
+float CURR_MOTOR_X = 7; // current motor shaft position (radians)
+float CURR_MOTOR_V = 8; // motor shaft velocity (rad/sec)
+//TODO: error code field?
+}
