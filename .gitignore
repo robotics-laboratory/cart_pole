@@ -3,6 +3,12 @@
 .pio
 .vscode
 .DS_Store
-**/__pycache__
 **/.pytest_cache
 venv
+*.py[cod]
+*$py.class
+
+# Protobuf codegen
+firmware/src/protocol.pb.c
+firmware/src/protocol.pb.h
+cartpole/device/protocol_pb2.py

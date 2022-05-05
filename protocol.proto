@@ -1,0 +1,55 @@
+syntax = "proto3";
+
+//This .proto file is intended for use both by the microcontroller and the brain
+
+enum MessageType{
+    GSST_RESPONSE = 0;
+    GSST_REQUEST = 1;
+    SET_CFG = 2;
+    ERROR_MSG = 3;
+
+}
+message State {
+    float currCartX = 1; // current cart position float 
+    float currCartV = 2; // current cart velocity float 
+    float currCartA = 3; // current cart acceleration
+    float currPoleAngle = 4; // current pole angle
+    float currPoleV = 5; // current pole angular velocity
+    float currImuA = 6; // current IMU measured cart acceleration
+    float currMotorX = 7; // current motor shaft position (radians)
+    float currMotorV = 8; // motor shaft velocity (rad/sec)
+}
+
+message Config {
+    float maxCartX = 1;
+    float maxCartV = 2;
+    float maxCartA = 3;
+    float hwMaxX = 4;
+    float hwMaxV = 5;
+    float hwMaxA = 6;
+    float maxThresholdX = 7;
+    float maxThresholdV = 8;
+    float maxThresholdA = 9;
+}
+
+message Target {
+    float TARGET_X = 1;
+    float TARGET_V = 2;
+    float TARGET_A = 3;
+}
+
+message GSSTResponseRequest {
+//Swap between response and request payload using MesssageType
+    Messagetype type = 1;
+    oneof payload {
+        Config config = 2;
+        State state = 3;
+        Target tartget = 4;
+    }
+}
+
+message Error {
+    //I am still not sure about how we want the errors to look like
+    // We should discuss it
+    int bitmaskErrorCode = 1;
+}

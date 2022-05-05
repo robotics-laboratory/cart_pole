@@ -1,5 +1,6 @@
 drake
 protobuf
+grpcio-tools
 jupyter
 pyserial
 varint
@@ -8,4 +9,3 @@ psutil
 saleae
 aiohttp
 pandas
-
