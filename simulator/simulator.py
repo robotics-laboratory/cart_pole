@@ -8,6 +8,7 @@ import numpy
 
 log = logging.getLogger('simulator')
 
+
 def clamp(value, limit):
     if value > limit:
         return limit, True
@@ -16,6 +17,7 @@ def clamp(value, limit):
         return -limit, True
 
     return value, False
+
 
 class CartPoleSimulator(CartPoleBase):
     '''
@@ -42,20 +44,20 @@ class CartPoleSimulator(CartPoleBase):
         self.context = self.system.CreateDefaultContext()
         self.simulator = Simulator(self.system, self.context)
         self.config = None
-        self.error = Error.NEED_RESET # Formally, we need reset env to reset error.
+        self.error = Error.NEED_RESET  # Formally, we need reset env to reset error.
         self.target_acceleration = 0
-        
+
     def reset_to(self, config, state):
         self.config = config
-        self.context.SetContinuousState(state.as_array())
-
+        self.context = self.system.CreateContext(config, state.as_array())
+        self.simulator = Simulator(self.system, self.context)
         self.error = Error.NO_ERROR
         self.target_acceleration = 0
         self.system.get_input_port().FixValue(self.context, numpy.array([0]))
 
     def reset(self, config):
         self.reset_to(config, State.home())
-        
+
     def get_state(self):
         return State.from_array(
             self.context.get_continuous_state_vector()

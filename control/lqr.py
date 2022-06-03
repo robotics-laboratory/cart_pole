@@ -9,18 +9,19 @@ from simulator.system import CartPoleSystem
 import math
 import numpy
 
+
 class BalanceLQRControl:
     def __init__(self, config):
         state = State(
-            cart_position = 0,
-            cart_velocity = 0,
-            pole_angle = math.pi,
-            pole_angular_velocity = 0
+            cart_position=0,
+            cart_velocity=0,
+            pole_angle=math.pi,
+            pole_angular_velocity=0
         )
-        
+
         self.q0 = state.as_array()
         self.u0 = numpy.array([0])
-        
+
         system = CartPoleSystem()
         context = system.CreateContext(config, self.q0)
         system.get_input_port().FixValue(context, self.u0)
@@ -32,7 +33,7 @@ class BalanceLQRControl:
 
         linearized = Linearize(system, context)
         self.K, _ = LinearQuadraticRegulator(linearized.A(), linearized.B(), Q, R)
-        
+
     def __call__(self, state):
         q = state.as_array()
         error = q - self.q0
@@ -50,9 +51,11 @@ class TrajectoryLQRControl:
         options.u0 = trajectory.targets
         options.Qf = Q
 
+        q0 = State()
+
         system = CartPoleSystem()
-        context = system.CreateDefaultContext()
-        
+        context = system.CreateContext(config, q0.as_array())
+
         self.trajectory = trajectory
         self.regulator = FiniteHorizonLinearQuadraticRegulator(
             system,

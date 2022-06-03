@@ -246,9 +246,8 @@ class CollectorProxy(CartPoleBase):
             LOGGER.info(f"Set target: {target}")
             return self.cart_pole.set_target(target)
 
-    def make_step(self) -> None:
-        with self.time_trace():
-            self.cart_pole.make_step()
+    def timestamp(self):
+        return self.cart_pole.timestamp()
 
     def close(self) -> None:
         with self.time_trace():

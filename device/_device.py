@@ -37,6 +37,9 @@ class CartPoleDevice(CartPoleBase):
 
     def get_state(self) -> State:
         new_state: State = self.interface.get(DeviceState.full())
+        new_state.pole_angle -= 0.6381
+        if new_state.pole_angle < 0:
+            new_state.pole_angle += math.pi * 2
         curr = new_state.pole_angle
         prev = self.prev_angle
         max_delta = math.pi

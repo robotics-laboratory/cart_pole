@@ -136,7 +136,7 @@ class DeviceState(DeviceVariableGroup, State):
         'cart_acceleration': 'curr_a',
         'pole_angle': 'pole_x',
         'pole_angular_velocity': 'pole_v',
-        'error_code': 'errcode',
+        'error': 'errcode',
         'accelerometer_value': 'imu_a',
         'motor_angle': 'motor_x',
         'motor_velocity': 'motor_v',
