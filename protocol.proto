@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+enum MessageType {
+    RESET = 0;
+    TARGETSTATE = 1;
+    KEEPALIVE = 2;
+    UPDATESTATE = 3;
+}
+
+enum Error {
+    NO_ERROR = 0x0; //INT 0
+    NEED_RESET = 0x01; // INT 1
+    X_OVERFLOW = 0x02; // INT 2
+    V_OVERFLOW = 0x04; // INT 4
+    A_OVERFLOW = 0x08; // INT 8
+    MOTOR_STALLED = 0x10; // INT 16 
+    ENDSTOP_HIT = 0x20;// INT 32
+}
+
+message State {
+    int32 error_code = 1;   // 32 bitmask-based error code
+    float curr_cart_x = 2; // current cart position [m] 
+    float curr_cart_v = 3; // current cart velocity [m/s] 
+    float curr_cart_a = 4; // current cart acceleration [m/s^2]
+    float curr_pole_x= 5; // current pole angle [rad]
+    float curr_pole_v = 6; // current pole angular velocity [rad/s]
+    float curr_imu_a = 7; // current IMU measured cart acceleration [m/s^2]
+}
+
+message Config {
+    float max_cart_x = 1; absolute max cart position [m]
+    float max_cart_v = 2; absolute max cart velocity [m/s]
+    float max_cart_a = 3; absolute max cart acceleration [m/s^2]
+    float hw_max_x = 4; max calibration-determined cart position [m] 
+    float hw_max_v = 5; max calibration-determined cart speed [m/s]
+    float hw_max_a = 6; max calibration-determined cart acceleration [m/s^2]
+
+message Target {
+    float target_cart_x = 1; // target cart position [m]
+    float target_cart_v = 2; // target cart velocity [m/s]
+    float target_cart_a = 3; // target cart acceleration [m/s^2]
+}

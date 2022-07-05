@@ -1,11 +1,12 @@
+import cartpole
 import time
 from pathlib import Path
-from device import CartPoleDevice, DeviceTarget
-from sessions.actor import Actor
-from sessions.collector import CollectorProxy
-from common.interface import Config, CartPoleBase
-from common.util import init_logging
-from misc.analyzer._saleae import SaleaeAnalyzer
+from cartpole.device import CartPoleDevice
+from cartpole.sessions.actor import Actor
+from cartpole.sessions.collector import CollectorProxy
+from cartpole.common.interface import Config, CartPoleBase
+from cartpole.common.util import init_logging
+from cartpole.misc.analyzer._saleae import SaleaeAnalyzer
 import logging
 # Actor imports
 from misc.oscillating_actor import OscillatingActor
@@ -26,9 +27,8 @@ def control_loop(device: CartPoleBase, actor: Actor, max_duration: float):
         device.set_target(target)
         device.advance()
 
-
 if __name__ == '__main__':
-    from common.util import init_logging
+    from cartpole.common.util import init_logging
     init_logging()
 
     SESSION_ID = 'test22'

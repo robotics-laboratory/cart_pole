@@ -232,7 +232,6 @@ class WireInterface:
     def reset(self) -> None:
         _ = self._command('reset')
 
-
 class ProtobufWireInterface(WireInterface):
     def set(self, params: Union[DeviceConfig, DeviceTarget]) -> DeviceVariableGroup:
         if isinstance(params, DeviceConfig):

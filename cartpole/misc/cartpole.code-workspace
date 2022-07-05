@@ -1,0 +1,24 @@
+{
+	"folders": [
+		{
+			"path": "../.."
+		}
+	],
+	"settings": {
+		"files.associations": {
+			"*.tcc": "cpp",
+			"functional": "cpp",
+			"random": "cpp",
+			"fstream": "cpp",
+			"istream": "cpp",
+			"ostream": "cpp",
+			"sstream": "cpp",
+			"streambuf": "cpp",
+			"system_error": "cpp",
+			"array": "cpp",
+			"tuple": "cpp",
+			"type_traits": "cpp",
+			"utility": "cpp"
+		}
+	}
+}

@@ -43,8 +43,9 @@ class State:
     cart_velocity: float = 0
     pole_angle: float = 0
     pole_angular_velocity: float = 0
-    error: Error = Error.NO_ERROR
     cart_acceleration: float = 0
+    imu_acceleration: float = 0
+    error: Error = Error.NO_ERROR
 
     @staticmethod
     def from_array(a):
@@ -63,6 +64,7 @@ class State:
             self.pole_angle,
             self.cart_velocity,
             self.pole_angular_velocity,
+            # TODO: no IMU data yet
         )
 
     def as_array(self):

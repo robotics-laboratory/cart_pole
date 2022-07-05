@@ -6,3 +6,13 @@
 **/__pycache__
 **/.pytest_cache
 venv
+*.py[cod]
+*$py.class
+**/__pycache__
+# Protobuf codegen
+firmware/src/protocol.pb.c
+firmware/src/protocol.pb.h
+cartpole/device/protocol_pb2.py
+cartpole/device/brain_controller_pb2.py  
+cartpole/device/controller_pb2.py
+cartpole/device/nanopb_pb2.py
