@@ -1,0 +1,72 @@
+#include <Arduino.h>
+#include <pb.h>
+#include <pb_decode.h>
+#include <pb_encode.h>
+#include "protocol.pb.h"
+#include <stdio.h>
+#include <cstdlib>
+#include <ctime>
+#include <tuple>
+#include <string>
+hw_timer_t* timer = NULL;
+State state;
+uint8_t buf[State_size];
+
+void encodeState(State &state, uint8_t buffer[]) {
+    pb_ostream_t stream = pb_ostream_from_buffer(buffer, State_size);
+    pb_encode(&stream, State_fields, &state);
+}
+
+void decodeState(State &state, uint8_t buffer[]) {
+    pb_istream_t stream = pb_istream_from_buffer(buffer, State_size);
+    pb_decode(&stream, State_fields, &state);    
+}
+State stateBuilder() {
+    state.curr_cart_x = static_cast<float> (rand());
+    state.curr_cart_v = static_cast<float> (rand());
+    state.curr_cart_a = static_cast<float> (rand());
+    state.curr_imu_a = static_cast<float> (rand());
+    state.curr_pole_v =static_cast<float> (rand());
+    state.curr_pole_x = static_cast<float> (rand());
+}
+
+
+std::tuple<int,int> benchmark() {
+    int encodeTimeMicros;
+    int decodeTimeMicros;
+    stateBuilder();
+
+    timerStart(timer);
+    encodeState(state, buf);
+    timerStop(timer);
+    //timer spits out microseconds because 1MHz APB clock freq
+    encodeTimeMicros = timerRead(timer);
+    timerRestart(timer);
+
+    timerStart(timer);
+    decodeState(state,buf);
+    timerStop(timer);
+    decodeTimeMicros = timerRead(timer);
+    timerRestart(timer);
+    
+    return std::make_tuple(encodeTimeMicros,decodeTimeMicros);
+}
+
+void setup() {
+    Serial.begin(115200);
+    //1 tick per millisecond
+    timer = timerBegin(0,80,true);
+}
+
+void loop() {
+
+    for (int runNumber = 0; runNumber < 10000; runNumber++) {
+        std::tuple <int, int> tuple= benchmark();
+        Serial.print("Run number ");
+        Serial.println(runNumber);
+        Serial.print("Encode time ");
+        Serial.println(std::get<0>(tuple));
+        Serial.print("Decode time ");
+        Serial.println(std::get<1>(tuple));
+    }
+}
